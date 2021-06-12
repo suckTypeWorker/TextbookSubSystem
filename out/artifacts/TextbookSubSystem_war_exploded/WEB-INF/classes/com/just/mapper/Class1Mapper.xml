@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.just.mapper.Class1Mapper">
+
+    <!--
+
+    private int id;
+    private String classId;
+    private String dept;
+    private int num;-->
+    <resultMap id="clVo" type="com.just.pojo.Class1">
+        <id column="id" property="id"/>
+        <result column="class_id" property="classId"/>
+        <result column="dept" property="dept"/>
+        <result column="num" property="num"/>
+    </resultMap>
+
+    <select id="getAllClass" resultMap="clVo">
+        select *
+        from t_class
+    </select>
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.just.mapper.TextBookMapper">
+    <resultMap id="bookVo" type="com.just.pojo.TextBook">
+        <id column="id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="isbn_id" property="ISBNId"/>
+        <result column="cip_id" property="CIPId"/>
+        <result column="series_name" property="seriesName"/>
+        <result column="publisher_id" property="publishId"/>
+        <result column="author" property="author"/>
+        <result column="publs_time" property="publishDate"/>
+        <result column="price" property="price"/>
+        <result column="classification" property="classification"/>
+        <result column="theme" property="theme"/>
+    </resultMap>
+
+    <!--获取所有图书-->
+    <select id="getAllTextbook" resultMap="bookVo">
+        select *
+        from t_textbook
+    </select>
+
+    <select id="getTextbookById" parameterType="java.lang.Integer" resultMap="bookVo">
+        select *
+        from t_textbook
+        where id = #{bookId}
+    </select>
+
+    <update id="updateTextbook" parameterType="com.just.pojo.TextBook">
+        update t_textbook
+        set book_name      = #{bookName},
+            isbn_id        = #{ISBNId},
+            cip_id         = #{CIPId},
+            series_name    = #{seriesName},
+            publisher_id   = #{publishId},
+            author         = #{author},
+            publs_time     = #{publishDate},
+            price          = #{price},
+            classification = #{classification},
+            theme          = #{theme}
+        where id = #{bookId}
+
+    </update>
+
+    <insert id="insertTextbook" parameterType="com.just.pojo.TextBook">
+        insert into t_textbook (book_name, isbn_id, cip_id, series_name, publisher_id, author, publs_time, price,
+                                classification, theme)
+        values (#{bookName}, #{ISBNId}, #{CIPId}, #{seriesName}, #{publishId}, #{author}, #{publishDate}, #{price},
+                #{classification}, #{theme})
+    </insert>
+
+    <delete id="deleteTextbookById" parameterType="java.lang.Integer">
+        delete from t_textbook where id = #{bookId}
+    </delete>
+</mapper>

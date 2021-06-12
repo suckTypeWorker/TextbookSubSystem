@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.just.mapper.OrderMapper">
+
+    <resultMap id="orVo" type="com.just.pojo.Order">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="book_id" property="tBookId"/>
+        <result column="order_class" property="orderClass"/>
+        <result column="order_date" property="orderDate"/>
+        <result column="num" property="num"/>
+        <result column="sumprice" property="sumPrice"/>
+        <result column="state" property="orderState"/>
+
+        <association property="user" column="user_id" javaType="com.just.pojo.User">
+            <result column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+            <result column="user_serial_id" property="serialId"/>
+            <result column="user_type" property="userType"/>
+            <result column="user_dept" property="userDept"/>
+            <result column="user_phone" property="userPhone"/>
+        </association>
+
+        <association property="textBook" column="book_id" javaType="com.just.pojo.TextBook">
+            <result column="id" property="bookId"/>
+            <result column="book_name" property="bookName"/>
+            <result column="isbn_id" property="ISBNId"/>
+            <result column="cip_id" property="CIPId"/>
+            <result column="series_name" property="seriesName"/>
+            <result column="publisher_id" property="publishId"/>
+            <result column="author" property="author"/>
+            <result column="publs_time" property="publishDate"/>
+            <result column="price" property="price"/>
+            <result column="classification" property="classification"/>
+            <result column="theme" property="theme"/>
+        </association>
+    </resultMap>
+
+    <select id="getAllOrder" resultMap="orVo">
+        SELECT *
+        FROM t_order o
+                 LEFT JOIN t_user u ON o.user_id = u.user_id
+                 LEFT JOIN t_textbook t ON o.book_id = t.id
+    </select>
+
+    <select id="getOrderById" resultMap="orVo">
+        SELECT *
+        FROM t_order o
+                 LEFT JOIN t_user u ON o.user_id = u.user_id
+                 LEFT JOIN t_textbook t ON o.book_id = t.id
+        where o.id = #{id}
+    </select>
+
+    <select id="getOrderByState" parameterType="java.lang.Integer" resultMap="orVo">
+        select *
+        from t_order o
+                 LEFT JOIN t_user u ON o.user_id = u.user_id
+                 left join t_textbook t on o.book_id = t.id
+        where o.state = #{i}
+
+    </select>
+
+    <select id="getManOrderByState" parameterType="java.lang.Integer" resultMap="orVo">
+        select *
+        from t_order o
+                 LEFT JOIN t_user u ON o.user_id = u.user_id
+                 left join t_textbook t on o.book_id = t.id
+        where o.state = #{i}
+        order by o.book_id
+    </select>
+
+    <select id="getOrderByUserAndState" parameterType="java.lang.Integer" resultMap="orVo">
+        select *
+        from t_order o
+                 left join t_textbook t on o.book_id = t.id
+        where o.user_id = #{userId}
+          and o.state = #{i}
+    </select>
+
+    <select id="getAllOrderinclass" resultMap="orVo">
+        select order_class, sum(num) as num, count(id) as user_id, book_id
+        from t_order
+        where state = 4
+        group by order_class
+    </select>
+
+    <select id="getAllOrderInTbookId" resultMap="orVo">
+
+
+    </select>
+
+    <select id="getOrderByStateAndDept" resultMap="orVo">
+        SELECT *
+        FROM t_order o
+                 LEFT JOIN t_user u ON o.user_id = u.user_id
+                 LEFT JOIN t_textbook t ON o.book_id = t.id
+        where u.user_dept = #{userDept}
+          and o.state = #{i}
+    </select>
+
+    <select id="getOrderInString" parameterType="java.lang.Integer" resultMap="orVo">
+        select *
+        from t_order o
+                 LEFT JOIN t_user u ON o.user_id = u.user_id
+                 left join t_textbook t on o.book_id = t.id
+        where id = #{id}
+
+    </select>
+
+    <select id="getAllOrderGyPublish" resultMap="orVo">
+        SELECT
+            sum(num) as num, publish_name as book_name
+        FROM t_order o
+                 LEFT JOIN t_textbook t on t.id = book_id
+                 LEFT JOIN t_publish p on t.publisher_id = p.publish_id
+        GROUP BY p.publish_id
+    </select>
+
+    <update id="updateOrder" parameterType="com.just.pojo.Order">
+        update t_order
+        set book_id     = #{tBookId},
+            order_date  = #{orderDate},
+            order_class = #{orderClass},
+            num         = #{num},
+            sumprice    = #{sumPrice},
+            state       = 0
+        where id = #{id}
+    </update>
+
+    <update id="updateOrderState" parameterType="java.lang.Integer">
+        update t_order
+        set state = #{orderState}
+        where id = #{id}
+    </update>
+
+    <insert id="insertOrder" parameterType="com.just.pojo.Order">
+        insert into t_order (book_id, user_id, order_class, order_date, num, sumprice, state)
+        values (#{tBookId}, #{userId}, #{orderClass}, #{orderDate}, #{num}, #{sumPrice}, 0)
+    </insert>
+
+</mapper>

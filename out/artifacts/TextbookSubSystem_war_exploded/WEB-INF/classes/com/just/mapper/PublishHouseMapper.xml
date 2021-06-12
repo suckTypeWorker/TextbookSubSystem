@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.just.mapper.PublishHouseMapper">
+
+    <resultMap id="pubVo" type="com.just.pojo.PublishHouse">
+
+        <id column="publish_id" property="publishId"/>
+        <result column="publish_name" property="publishName"/>
+        <result column="publish_city" property="publishCity"/>
+        <result column="publish_address" property="publishAddress"/>
+    </resultMap>
+
+    <select id="getAllPublish" resultMap="pubVo">
+        select publish_id, publish_name from t_publish
+    </select>
+
+</mapper>
