@@ -21,17 +21,10 @@ public class SysController {
 
     /*
      * 订单管理
-     * 1.查询订单信息
-     * 2.查询所有订单信息
-     * 3.增加订单
-     *   3.1查询书籍
-     *   3.2查询所有书籍/部分书籍列表
-     * 4.确定订单并付款
-     *
      * */
 
     /**
-     * 征订信息
+     * 征订信息统计与分析
      * @param model
      * @param userName
      * @return
@@ -125,7 +118,6 @@ public class SysController {
         // 各个年段的订购数量
         // 1.判断当前的大一~大四分别是哪一级
         // 2.计算订购数量
-
 
         model.addAttribute("pubMap",pubMap);
         model.addAttribute("bookRate",bookRate);
@@ -414,14 +406,11 @@ public class SysController {
         return opNum;
     }
 
+
     /*
      * 图书管理
-     * 1.查询所有图书
-     * 2.增加图书
-     * 3.删除图书
-     * 4.修改图书信息
-     * 5.订单中查询所有/部分书籍
      * */
+
     @RequestMapping("/textbookList")
     public String getAllTextbook(Model model, int userType, String userName) {
 
@@ -487,13 +476,7 @@ public class SysController {
     }
 
     /*
-     * 用户管理系统
-     * 1.查询本用户信息
-     * 2.修改本用户信息
-     * 3.管理员查询所有用户信息
-     * 4.管理员修改用户信息
-     * 5.管理员删除用户
-     * 6.注册用户
+     * 用户管理
      * */
 
     @RequestMapping("/login")
@@ -701,12 +684,12 @@ public class SysController {
 
 
     /*
-     * 出版社管理系统
-     * 1.管理员增加出版社
-     * 2.管理员修改出版社信息
-     * 3.管理员删除出版社
-     * 4.查询出版社信息
+     * 出版社管理
      * */
+
+    /*
+    * 班级管理
+    * */
 
 }
 
